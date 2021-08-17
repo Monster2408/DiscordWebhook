@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build_and_release:
+    name: ビルド & リリース
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: リソースパックとして機能するディレクトリを見つける
+        run: find . -mindepth 2 -maxdepth 2 -type f -iname discord-webhook.php | parallel echo {//} > plugin.txt
+
+      - name: 見つけたディレクトリからリソースパックの作成
+        run: parallel -a plugin.txt --wd {} zip -r "$PWD"/{/}.zip .
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          tag_name: release-v${{ github.run_number }}
+          files: '*.zip'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
