@@ -1,6 +1,6 @@
 <?php
 /**
- * Discord Webhook Gravity Forms
+ * Webhook for Discord Gravity Forms
  *
  * @author      Monster2408
  * @license     GPLv2

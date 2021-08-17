@@ -1,4 +1,11 @@
 <?php
+/**
+ * Webhook for Discord Contact Form 7
+ *
+ * @author      Monster2408
+ * @license     GPLv2
+ */
+
 class Discord_Webhook_Language {
     function get_discord_webhook_lang() {
         return get_locale();

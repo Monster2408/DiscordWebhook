@@ -1,6 +1,6 @@
 <?php
 /**
- * Discord Webhook General Helper Functions
+ * Webhook for Discord General Helper Functions
  *
  * @author      Monster2408
  * @license     GPLv2

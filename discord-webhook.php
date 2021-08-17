@@ -1,11 +1,11 @@
 <?php
 /**
- * Discord Webhook
+ * Webhook for Discord
  *
  * @author      Monster2408
  * @license     GPLv2
  *
- * Plugin Name: Discord Webhook
+ * Plugin Name: Webhook for Discord
  * Plugin URI:  https://wordpress.org/plugins/discord-webhook/
  * Description: A Discord integration that sends a message on your desired Discord server and channel for every new post published.
  * Version:     1.1
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Main class of the plugin Discord Webhook. Handles the bot and the admin settings.
+ * Main class of the plugin Webhook for Discord. Handles the bot and the admin settings.
  */
 class Discord_Webhook {
 	/**

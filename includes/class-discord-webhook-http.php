@@ -1,6 +1,6 @@
 <?php
 /**
- * Discord Webhook HTTP
+ * Webhook for Discord HTTP
  *
  * @author      Monster2408
  * @license     GPLv2

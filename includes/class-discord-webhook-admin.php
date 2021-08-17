@@ -1,6 +1,6 @@
 <?php
 /**
- * Discord Webhook Admin
+ * Webhook for Discord Admin
  *
  * @author      Monster2408
  * @license     GPLv2

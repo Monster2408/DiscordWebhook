@@ -1,6 +1,6 @@
 <?php
 /**
- * Discord Webhook Formatting
+ * Webhook for Discord Formatting
  *
  * @author      Monster2408
  * @license     GPLv2

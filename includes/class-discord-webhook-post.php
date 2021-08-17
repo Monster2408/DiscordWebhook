@@ -1,6 +1,6 @@
 <?php
 /**
- * Discord Webhook Posts
+ * Webhook for Discord Posts
  *
  * @author      Monster2408
  * @license     GPLv2

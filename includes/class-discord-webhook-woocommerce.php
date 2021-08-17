@@ -1,6 +1,6 @@
 <?php
 /**
- * Discord Webhook WooCommerce
+ * Webhook for Discord WooCommerce
  *
  * @author      Monster2408
  * @license     GPLv2

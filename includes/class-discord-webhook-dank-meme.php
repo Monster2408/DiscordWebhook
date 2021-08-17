@@ -1,6 +1,6 @@
 <?php
 /**
- * Discord Webhook Dank Meme
+ * Webhook for Discord Dank Meme
  *
  * @author      Monster2408
  * @license     GPLv2

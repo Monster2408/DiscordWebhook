@@ -1,6 +1,6 @@
 <?php
 /**
- * Discord Webhook Contact Form 7
+ * Webhook for Discord Contact Form 7
  *
  * @author      Monster2408
  * @license     GPLv2
