@@ -1,16 +1,5 @@
 === Webhook for Discord ===
 Contributors: monster2408
-Donate link: https://wordpress.org/plugins/discord-webhook/
-Tags: discord, chat, webhook
-Requires at least: 5.8
-Tested up to: 5.8
-Stable tag: 0.2
-Requires PHP: 7.4
-License: GPLv2
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-
-=== Webhook for Discord ===
-Contributors: monster2408
 Donate link: https://paypal.me/pools/c/8BuanO0eM2
 Tags: discord, chat, webhook
 Requires at least: 4.4
@@ -20,13 +9,13 @@ Requires PHP: 7.4
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
-
-We'll let Discord know when you're posting your article.
+This plugin allows you to easily notify the Discord group when you post an article.
 
 == Description ==
 
 We'll let Discord know when you're posting your article.
+
+The method is very simple. Just enter the URL of the webhook in the settings screen.
 
 == Frequently Asked Questions ==
 
