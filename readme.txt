@@ -4,7 +4,7 @@ Donate link: https://paypal.me/pools/c/8BuanO0eM2
 Tags: discord, chat, webhook
 Requires at least: 4.4
 Tested up to: 5.8
-Stable tag: 0.2
+Stable tag: 1.0
 Requires PHP: 7.4
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -34,6 +34,9 @@ It's free.
 
 == Changelog ==
 
+= 1.0 =
+Release This Plugin!
+
 = 0.2 =
 Changed the name of the plugin from Discord Webhook to Webhook for Discord
 
@@ -41,6 +44,9 @@ Changed the name of the plugin from Discord Webhook to Webhook for Discord
 Temporary release This Plugin
 
 == Upgrade Notice ==
+
+= 1.0 =
+Release This Plugin!
 
 = 0.2 =
 Change plugin name
