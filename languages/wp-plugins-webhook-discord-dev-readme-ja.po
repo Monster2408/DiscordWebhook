@@ -46,6 +46,10 @@ msgstr ""
 "（今後対応予定です。）"
 
 #. Found in changelog paragraph.
+msgid "Change Text Domain"
+msgstr "テキストドメインの修正"
+
+#. Found in changelog paragraph.
 msgid "A small readme.txt fix"
 msgstr "readme.txtに小さな変更を加えました。"
 

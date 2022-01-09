@@ -4,7 +4,7 @@ Donate link: https://paypal.me/pools/c/8BuanO0eM2
 Tags: discord, chat, webhook
 Requires at least: 4.4
 Tested up to: 5.8
-Stable tag: 1.2
+Stable tag: 1.2.1
 Requires PHP: 7.4
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -24,6 +24,9 @@ The method is very simple. Just enter the URL of the webhook in the settings scr
 It's free.
 
 == Changelog ==
+
+= 1.2.1 =
+Change Text Domain
 
 = 1.2 =
 Added category placeholder and thumbnail embedding.
