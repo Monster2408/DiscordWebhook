@@ -11,7 +11,7 @@
  * Version:     1.2
  * Author:      Monster2408
  * Author URI:  https://monster2408.mlserver.jp/
- * Text Domain: discord-webhook
+ * Text Domain: webhook-discord
  *
  * WC tested up to: 5.8
  *
