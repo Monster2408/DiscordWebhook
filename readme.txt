@@ -26,7 +26,8 @@ It's free.
 == Changelog ==
 
 = 1.2.1 =
-Change Text Domain
+Change Text Domain.
+However, this is not a significant update.
 
 = 1.2 =
 Added category placeholder and thumbnail embedding.
@@ -46,6 +47,9 @@ Changed the name of the plugin from Discord Webhook to Webhook for Discord
 Temporary release This Plugin
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Change Text Domain
 
 = 1.2 =
 Added category placeholder and thumbnail embedding.
