@@ -26,14 +26,14 @@ class Discord_Webhook_Formatting {
 		if ( has_post_thumbnail( $post_id ) ) {
 			$image_size   = apply_filters( 'discord_webhook_embed_image_size', 'full' );
 			$thumbnail_id = get_post_thumbnail_id( $post_id );
-			$thumbnails    = wp_get_attachment_image_src( $thumbnail_id, $image_size );
-			$thumbnail    = $thumbnails[0];
+			$thumbnail    = wp_get_attachment_image_src( $thumbnail_id, $image_size );
+			$thumbnail    = $thumbnail[0];
 		}
 
 		return $thumbnail;
 	}
 
-	/** 
+	/**
 	 * Gets the post excerpt.
 	 *
 	 * @param  object $post The post object.
@@ -79,9 +79,6 @@ class Discord_Webhook_Formatting {
 					'text'     => get_bloginfo( 'name' ),
 					'icon_url' => get_site_icon_url(),
 				),
-				'image' => array(
-					"url" => ! empty( $embed['image']['url'] ) ? $embed['image']['url'] : '',
-				),
 				'author'      => array(
 					'name' => ! empty( $embed['author'] ) ? $embed['author'] : get_bloginfo( 'name' ),
 				),
@@ -89,11 +86,11 @@ class Discord_Webhook_Formatting {
 			),
 		);
 
-		// if ( ! empty( $embed['thumbnail'] ) ) {
-		// 	$args[0]['thumbnail'] = array(
-		// 		'url' => $embed['thumbnail'],
-		// 	);
-		// }
+		if ( ! empty( $embed['image'] ) ) {
+			$args[0]['image'] = array(
+				'url' => $embed['image'],
+			);
+		}
 
 		if ( discord_webhook_is_logging_enabled() ) {
 			error_log( print_r( $args, true ) );

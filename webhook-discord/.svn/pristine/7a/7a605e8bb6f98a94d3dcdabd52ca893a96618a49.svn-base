@@ -188,9 +188,7 @@ class Discord_Webhook_WooCommerce {
 			'description' => strip_tags( $product->get_short_description() ),
 			'url'         => $product->get_permalink(),
 			'timestamp'   => get_the_date( 'c', $id ),
-			'image'   => array(
-				"url" => $thumbnail,
-			),
+			'image'       => $thumbnail,
 			'fields'      => array(),
 		);
 

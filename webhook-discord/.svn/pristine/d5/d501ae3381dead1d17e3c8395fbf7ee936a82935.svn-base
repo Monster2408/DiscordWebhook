@@ -4,7 +4,7 @@ Donate link: https://paypal.me/pools/c/8BuanO0eM2
 Tags: discord, chat, webhook
 Requires at least: 4.4
 Tested up to: 5.8
-Stable tag: 1.2
+Stable tag: 1.1
 Requires PHP: 7.4
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -30,11 +30,6 @@ It's free.
 
 == Changelog ==
 
-= 1.2 =
-Added category placeholder and thumbnail embedding.
-However, it is not compatible with plugins such as FIFU.
-(I will add them in the future.)
-
 = 1.1 =
 A small readme.txt fix
 
@@ -48,9 +43,6 @@ Changed the name of the plugin from Discord Webhook to Webhook for Discord
 Temporary release This Plugin
 
 == Upgrade Notice ==
-
-= 1.2 =
-Added category placeholder and thumbnail embedding.
 
 = 1.1 =
 fix FAQ

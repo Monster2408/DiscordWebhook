@@ -110,7 +110,7 @@ class Discord_Webhook_Language {
     }
     function get_embed_disable_description() {
         if (get_locale() === "ja") {
-            return "投稿時に記事の情報を同時に投稿する機能を停止します。";
+            return "投稿時に記事の情報を同時に投稿します。";
         } else {  
             return 'Disable the embed content added by Discord Webhook and use the default content automatically added by Discord.';
         }
@@ -124,16 +124,9 @@ class Discord_Webhook_Language {
     }
     function get_msg_format_description() {
         if (get_locale() === "ja") {
-            return "投稿時の形式を変更できます。%post_type%, %title%, %author%, %url%, %category% でそれぞれの情報に置き換えます。また、HTML形式のサポートはされていません。";
+            return "投稿時の形式を変更できます。%post_type%, %title%, %author%, %url%でそれぞれの情報に置き換えます。また、HTML形式のサポートはされていません。";
         } else {  
-            return 'Change the format of the message sent to Discord. The available placeholders are %post_type%, %title%, %author%, %url%, and %category%, HTML is not supported.';
-        }
-    }
-    function get_placeholder_text() {
-        if (get_locale() === "ja") {
-            return "%author%が**%title%**という記事を投稿しました。%post_type% %url% %category%";
-        } else {
-            return "%author% just published the %post_type% %title% on their blog: %url%";
+            return 'Change the format of the message sent to Discord. The available placeholders are %post_type%, %title%, %author%, and %url%. HTML is not supported.';
         }
     }
 }

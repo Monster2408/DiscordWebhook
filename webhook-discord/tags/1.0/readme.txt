@@ -4,7 +4,7 @@ Donate link: https://paypal.me/pools/c/8BuanO0eM2
 Tags: discord, chat, webhook
 Requires at least: 4.4
 Tested up to: 5.8
-Stable tag: 1.2
+Stable tag: 1.0
 Requires PHP: 7.4
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -19,7 +19,11 @@ The method is very simple. Just enter the URL of the webhook in the settings scr
 
 == Frequently Asked Questions ==
 
-= How much is it? =
+= A question that someone might have =
+
+How much is it?
+
+An answer to that question.
 
 It's free.
 
@@ -29,14 +33,6 @@ It's free.
 2. This is the second screen shot
 
 == Changelog ==
-
-= 1.2 =
-Added category placeholder and thumbnail embedding.
-However, it is not compatible with plugins such as FIFU.
-(I will add them in the future.)
-
-= 1.1 =
-A small readme.txt fix
 
 = 1.0 =
 Release This Plugin!
@@ -48,12 +44,6 @@ Changed the name of the plugin from Discord Webhook to Webhook for Discord
 Temporary release This Plugin
 
 == Upgrade Notice ==
-
-= 1.2 =
-Added category placeholder and thumbnail embedding.
-
-= 1.1 =
-fix FAQ
 
 = 1.0 =
 Release This Plugin!

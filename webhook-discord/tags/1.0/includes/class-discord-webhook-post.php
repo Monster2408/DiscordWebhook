@@ -37,7 +37,7 @@ class Discord_Webhook_Post {
 		$embed   = array();
 
 		if ( ! discord_webhook_is_embed_enabled() ) {
-			$embed = $this->_prepare_embed( $id, $post );
+			$embed   = $this->_prepare_embed( $id, $post );
 		}
 
 		$http = new Discord_Webhook_HTTP( 'post' );
@@ -97,8 +97,8 @@ class Discord_Webhook_Post {
 		$message_format   = get_option( 'discord_webhook_message_format' );
 
 		$content = str_replace(
-			array( '%title%', '%author%', '%url%', '%post_type%', '%category%' ),
-			array( esc_html( $post->post_title ), $author, get_permalink( $id ), get_post_type( $id ), get_the_category( $id ) ),
+			array( '%title%', '%author%', '%url%', '%post_type%' ),
+			array( esc_html( $post->post_title ), $author, get_permalink( $id ), get_post_type( $id ) ),
 			$message_format
 		);
 
@@ -124,20 +124,17 @@ class Discord_Webhook_Post {
 	 * @access private
 	 */
 	private function _prepare_embed( $id, $post ) {
-		$text      = Discord_Webhook_Formatting::get_description( $post );
 		$thumbnail = Discord_Webhook_Formatting::get_thumbnail( $id );
-		if (strlen($thumbnail) === 0) $thumbnail = get_the_post_thumbnail_url();
+		$text      = Discord_Webhook_Formatting::get_description( $post );
 
 		$embed = array(
 			'title'       => html_entity_decode( get_the_title( $id ) ),
 			'description' => $text,
 			'url'         => get_permalink( $id ),
 			'timestamp'   => get_the_date( 'c', $id ),
+			'image'       => $thumbnail,
 			'author'      => get_the_author_meta( 'display_name', $post->post_author ),
 			'fields'      => array(),
-			'image'   => [
-				'url'     => $thumbnail,
-			],
 		);
 
 		if ( ! empty( get_the_category_list() ) ) {

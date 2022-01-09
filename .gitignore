@@ -23,3 +23,7 @@ node_modules/
 *.sqlite
 
 uplode.bat
+
+test.bat
+
+webhook-discord_git-bash.*

@@ -238,10 +238,10 @@ class Discord_Webhook_Admin {
 	public function print_message_format_field() {
 		$dwl = new Discord_Webhook_Language();
 		$value       = get_option( 'discord_webhook_message_format' );
-		$placeholder = __( $dwl->get_placeholder_text(), 'discord-webhook' );
+		$placeholder = __( '%author% just published the %post_type% %title% on their blog: %url%', 'discord-webhook' );
 
 		echo '<textarea style="width:500px;height:150px;" name="discord_webhook_message_format" placeholder="' . esc_attr( $placeholder ) . '">' . esc_textarea( $value ) . '</textarea><br />';
-		echo '<span class="description">' . esc_html__( $dwl->get_msg_format_description(), 'discord-webhook' ) . '</span>';
+		echo '<span class="description">' . esc_html__( $dwl->get_webhook_url_description(), 'discord-webhook' ) . '</span>';
 	}
 
 	/**
