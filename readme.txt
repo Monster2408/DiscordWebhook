@@ -23,11 +23,6 @@ The method is very simple. Just enter the URL of the webhook in the settings scr
 
 It's free.
 
-== Screenshots ==
-
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is stored in the /assets directory.
-2. This is the second screen shot
-
 == Changelog ==
 
 = 1.2 =
