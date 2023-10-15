@@ -210,7 +210,7 @@ class Discord_Webhook_HTTP {
 		$this->set_avatar( get_option( 'discord_webhook_avatar_url' ) );
 		$this->set_token( get_option( 'discord_webhook_bot_token' ) );
 		$this->set_webhook_url( get_option( 'discord_webhook_webhook_url' ) );
-		$this->guilded_( get_option( 'discord_webhook_guilded_webhook_url' ) );
+		$this->set_guilded_webhook_url( get_option( 'discord_webhook_guilded_webhook_url' ) );
 	}
 
 	/**

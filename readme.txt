@@ -25,6 +25,9 @@ It's free.
 
 == Changelog ==
 
+= 1.3.0-beta.4 =
+Bug Prefix for Guilded Webhook System
+
 = 1.3.0-beta.3 =
 Bug Prefix for Guilded Webhook System
 
@@ -57,6 +60,9 @@ Changed the name of the plugin from Discord Webhook to Webhook for Discord
 Temporary release This Plugin
 
 == Upgrade Notice ==
+
+= 1.3.0-beta.4 =
+Bug Prefix
 
 = 1.3.0-beta.3 =
 Bug Prefix
