@@ -8,12 +8,12 @@
  * Plugin Name: Webhook for Discord
  * Plugin URI:  https://wordpress.org/plugins/webhook-discord/
  * Description: A Discord integration that sends a message on your desired Discord server and channel for every new post published.
- * Version:     1.2.1
+ * Version:     1.3.0-beta.1
  * Author:      Monster2408
- * Author URI:  https://monster2408.mlserver.jp/
+ * Author URI:  https://monster2408.com/
  * Text Domain: webhook-discord
  *
- * WC tested up to: 5.8
+ * WC tested up to: 6.3.2
  *
  * License:     GPLv2
  * License URI: https://github.com/Monster2408/DiscordWebhook/blob/master/LICENSE

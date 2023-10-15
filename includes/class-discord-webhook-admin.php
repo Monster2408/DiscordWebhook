@@ -106,6 +106,14 @@ class Discord_Webhook_Admin {
 		);
 
 		add_settings_field(
+			'discord_webhook_guilded_webhook_url',
+			esc_html__( $dwl->get_guilded_webhook_url(), 'discord-webhook' ),
+			array( $this, 'print_guilded_webhook_url_field' ),
+			'discord-webhook',
+			'discord_webhook_settings'
+		);
+
+		add_settings_field(
 			'discord_webhook_logging',
 			esc_html__( $dwl->get_logging(), 'discord-webhook' ),
 			array( $this, 'print_logging_field' ),
@@ -141,6 +149,7 @@ class Discord_Webhook_Admin {
 		register_setting( 'discord-webhook', 'discord_webhook_avatar_url' );
 		register_setting( 'discord-webhook', 'discord_webhook_bot_token' );
 		register_setting( 'discord-webhook', 'discord_webhook_webhook_url' );
+		register_setting( 'discord-webhook', 'print_guilded_webhook_url' );
 		register_setting( 'discord-webhook', 'discord_webhook_logging' );
 		register_setting( 'discord-webhook', 'discord_webhook_mention_everyone' );
 		register_setting( 'discord-webhook', 'discord_webhook_disable_embed' );
@@ -189,6 +198,17 @@ class Discord_Webhook_Admin {
 	}
 
 	/**
+	 * Prints the Webhook URL settings field.
+	 */
+	public function print_guilded_webhook_url_field() {
+		$dwl = new Discord_Webhook_Language();
+		$value = get_option( 'discord_webhook_guilded_webhook_url' );
+
+		echo '<input type="text" name="discord_webhook_guilded_webhook_url" value="' . esc_url( $value ) . '" style="width:300px;margin-right:10px;" />';
+		echo '<span class="description">' . sprintf( esc_html__( $dwl->get_guilded_webhook_url_description().' %1$sLearn more%2$s', 'discord-webhook' ), '<a href="https://support.guilded.gg/hc/en-us/articles/360038927934-Incoming-Webhooks">', '</a>' ) . '</span>';
+	}
+
+	/**
 	 * Prints the Logging settings field.
 	 */
 	public function print_logging_field() {
@@ -230,6 +250,18 @@ class Discord_Webhook_Admin {
 
 		echo '<input type="text" name="discord_webhook_post_webhook_url" value="' . esc_url( $value ) . '" style="width:300px;margin-right:10px;" />';
 		echo '<span class="description">' . sprintf( esc_html__( $dwl->get_webhook_url_description().' %1$sLearn more%2$s', 'discord-webhook' ), '<a href="https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks?page=2">', '</a>' ) . '</span>';
+	}
+
+
+	/**
+	 * Prints the Webhook URL settings field.
+	 */
+	public function print_post_guilded_webhook_url_field() {
+		$dwl = new Discord_Webhook_Language();
+		$value = get_option( 'discord_webhook_guilded_post_webhook_url' );
+
+		echo '<input type="text" name="discord_webhook_guilded_post_webhook_url" value="' . esc_url( $value ) . '" style="width:300px;margin-right:10px;" />';
+		echo '<span class="description">' . sprintf( esc_html__( $dwl->get_guilded_webhook_url_description().' %1$sLearn more%2$s', 'discord-webhook' ), '<a href="https://support.guilded.gg/hc/en-us/articles/360038927934-Incoming-Webhooks">', '</a>' ) . '</span>';
 	}
 
 	/**

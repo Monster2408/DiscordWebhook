@@ -47,6 +47,14 @@ class Discord_Webhook_HTTP {
 	private $_webhook_url = '';
 
 	/**
+	 * The webhook URL.
+	 *
+	 * @var string
+	 * @access private
+	 */
+	private $_guilded_webhook_url = '';
+
+	/**
 	 * The content of the request.
 	 *
 	 * @var string
@@ -154,6 +162,10 @@ class Discord_Webhook_HTTP {
 		return $this->_webhook_url;
 	}
 
+	public function get_guilded_webhook_url() {
+		return $this->_guilded_webhook_url;
+	}
+
 	/**
 	 * Returns the context of the request.
 	 *
@@ -199,6 +211,22 @@ class Discord_Webhook_HTTP {
 			}
 		}
 
+		if ($this->get_guilded_webhook_url() !== "") {
+			$guilded_response = $this->_send_guilded_request( $content, $embed );
+
+			if ( ! is_wp_error( $guilded_response ) ) {
+				if ( discord_webhook_is_logging_enabled() ) {
+					error_log( 'Discord Webhook - Request sent.' );
+				}
+
+				$this->_set_post_meta( $id );
+			} else {
+				if ( discord_webhook_is_logging_enabled() ) {
+					error_log( sprintf( 'Discord Webhook - Request not sent. %s', $guilded_response->get_error_message() ) );
+				}
+			}
+		}
+
 		return $response;
 	}
 
@@ -238,6 +266,48 @@ class Discord_Webhook_HTTP {
 		do_action( 'discord_webhook_before_request', $request, $this->get_webhook_url() );
 
 		$response = wp_remote_post( esc_url( $this->get_webhook_url() ), $request );
+
+		do_action( 'discord_webhook_after_request', $response );
+
+		return $response;
+	}
+
+		/**
+	 * Handles the HTTP request and returns a response.
+	 *
+	 * @param  string $content The content of the request
+	 * @param  array  $embed   The embed content.
+	 * @return object
+	 * @access private
+	 */
+	private function _send_guilded_request( $content, $embed ) {
+		$args = array(
+			'content'    => html_entity_decode( esc_html( $content ) ),
+			'username'   => esc_html( $this->get_username() ),
+			'avatar_url' => esc_url( $this->get_avatar() ),
+		);
+
+		if ( ! empty( $embed ) ) {
+			$args['embeds'] = Discord_Webhook_Formatting::get_embed( $embed );
+		}
+
+		$args = apply_filters( 'discord_webhook_request_body_args', $args );
+
+		$request = apply_filters( 'discord_webhook_request_args', array(
+			'headers' => array(
+				'Authorization' => 'Bot ' . esc_html( $this->get_token() ),
+				'Content-Type'  => 'application/json',
+			),
+			'body' => wp_json_encode( $args ),
+		) );
+
+		if ( discord_webhook_is_logging_enabled() ) {
+			error_log( print_r( $request, true ) );
+		}
+
+		do_action( 'discord_webhook_before_request', $request, $this->get_guilded_webhook_url() );
+
+		$response = wp_remote_post( esc_url( $this->get_guilded_webhook_url() ), $request );
 
 		do_action( 'discord_webhook_after_request', $response );
 
