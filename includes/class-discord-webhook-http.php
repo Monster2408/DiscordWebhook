@@ -113,6 +113,29 @@ class Discord_Webhook_HTTP {
 	}
 
 	/**
+	 * Sets the  webhook URL.
+	 *
+	 * @param string $url     Sets the webhook URL.
+	 * @param string $context The context used for this specific instance.
+	 */
+	public function set_guilded_webhook_url( $url = '' ) {
+		$context = $this->get_context();
+
+		if ( ! empty( $context ) ) {
+			$specific_url = get_option( 'discord_webhook_guilded_' . sanitize_key( $context ) . '_webhook_url' );
+
+			if ( ! empty( $specific_url ) && empty( $url ) ) {
+				$url = $specific_url;
+			}
+		}
+
+		$url = apply_filters( 'discord_webhook_guilded_' . sanitize_key( $context ) . '_webhook_url', $url );
+		$url = apply_filters( 'discord_webhook_guilded_webhook_url', $url );
+
+		$this->_webhook_url = esc_url_raw( $url );
+	}
+
+	/**
 	 * Sets the context of this request.
 	 *
 	 * @param string $context The context of this request.
@@ -121,6 +144,7 @@ class Discord_Webhook_HTTP {
 		if ( ! empty( $this->get_context() ) ) {
 			$this->_context = sanitize_key( $context );
 			$this->set_webhook_url();
+			$this->set_guilded_webhook_url();
 		} else {
 			$this->_context = sanitize_key( $context );
 		}
@@ -186,6 +210,7 @@ class Discord_Webhook_HTTP {
 		$this->set_avatar( get_option( 'discord_webhook_avatar_url' ) );
 		$this->set_token( get_option( 'discord_webhook_bot_token' ) );
 		$this->set_webhook_url( get_option( 'discord_webhook_webhook_url' ) );
+		$this->guilded_( get_option( 'discord_webhook_guilded_webhook_url' ) );
 	}
 
 	/**
