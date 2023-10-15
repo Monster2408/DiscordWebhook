@@ -236,23 +236,33 @@ class Discord_Webhook_HTTP {
 			}
 		}
 
-		if ($this->get_guilded_webhook_url() !== "") {
-			$guilded_response = $this->_send_guilded_request( $content, $embed );
+		return $response;
+	}
 
-			if ( ! is_wp_error( $guilded_response ) ) {
-				if ( discord_webhook_is_logging_enabled() ) {
-					error_log( 'Discord Webhook - Request sent.' );
-				}
+	/**
+	 * Processes a request and sends it to Discord.
+	 *
+	 * @param  string $content The message sent along wih the embed.
+	 * @param  array  $embed   The embed content.
+	 * @param  int    $id      The post ID.
+	 * @return object;
+	 */
+	public function guilded_process( $content = '', $embed = array(), $id = 0 ) {
+		$guilded_response = $this->_send_guilded_request( $content, $embed );
 
-				$this->_set_post_meta( $id );
-			} else {
-				if ( discord_webhook_is_logging_enabled() ) {
-					error_log( sprintf( 'Discord Webhook - Request not sent. %s', $guilded_response->get_error_message() ) );
-				}
+		if ( ! is_wp_error( $guilded_response ) ) {
+			if ( discord_webhook_is_logging_enabled() ) {
+				error_log( 'Discord Webhook - Request sent.' );
+			}
+
+			$this->_set_guilded_post_meta( $id );
+		} else {
+			if ( discord_webhook_is_logging_enabled() ) {
+				error_log( sprintf( 'Discord Webhook - Request not sent. %s', $guilded_response->get_error_message() ) );
 			}
 		}
 
-		return $response;
+		return $guilded_response;
 	}
 
 	/**
@@ -351,6 +361,23 @@ class Discord_Webhook_HTTP {
 
 		if ( 0 !== $id ) {
 			return add_post_meta( $id, '_discord_webhook_published', 'yes' );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Sets the post meta for avoiding sending the request on update.
+	 *
+	 * @param  int $id The post ID.
+	 * @return bool|int
+	 * @access private
+	 */
+	private function _set_guilded_post_meta( $id ) {
+		$id = intval( $id );
+
+		if ( 0 !== $id ) {
+			return add_post_meta( $id, '_discord_webhook_guilded_published', 'yes' );
 		}
 
 		return false;

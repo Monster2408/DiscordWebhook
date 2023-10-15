@@ -34,6 +34,18 @@ class Discord_Webhook_CF7 {
 	}
 
 	/**
+	 * Sends the form submission to Discord using the specified webhook URL and Bot token.
+	 *
+	 * @param int $contact_form The contact form.
+	 */
+	public function guilded_send( $contact_form, $abort, $submission ) {
+		$embed = $this->_prepare_embed( $submission );
+
+		$http = new Discord_Webhook_HTTP( 'cf7' );
+		return $http->guilded_process( '', $embed );
+	}
+
+	/**
 	 * Prepares the embed for the CF7 form.
 	 *
 	 * @access protected

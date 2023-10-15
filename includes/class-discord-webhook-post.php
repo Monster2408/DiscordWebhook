@@ -45,6 +45,29 @@ class Discord_Webhook_Post {
 	}
 
 	/**
+	 * Sends the post to Discord using the specified webhook URL and Bot token.
+	 *
+	 * @param  int     $id   The post ID.
+	 * @param  WP_Post $post The post object.
+	 */
+	public function guilded_send( $id, $post ) {
+		// Check if the post has been already published and if it should be processed.
+		if ( ! apply_filters( 'discord_webhook_is_new_post', $this->is_new_post( $post ), $post ) ) {
+			return;
+		}
+
+		$content = $this->_prepare_content( $id, $post );
+		$embed   = array();
+
+		if ( ! discord_webhook_is_embed_enabled() ) {
+			$embed = $this->_prepare_embed( $id, $post );
+		}
+
+		$http = new Discord_Webhook_HTTP( 'post' );
+		return $http->guilded_process( $content, $embed, $id );
+	}
+
+	/**
 	 * Checks if a post has been published already or not.
 	 *
 	 * @param  WP_Post $post The post object.

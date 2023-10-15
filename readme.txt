@@ -4,7 +4,7 @@ Donate link: https://github.com/sponsors/Monster2408
 Tags: discord, chat, webhook
 Requires at least: 4.4
 Tested up to: 6.3.2
-Stable tag: 1.3.0-beta.3
+Stable tag: 1.3.0-beta.5
 Requires PHP: 7.4
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -24,6 +24,9 @@ The method is very simple. Just enter the URL of the webhook in the settings scr
 It's free.
 
 == Changelog ==
+
+= 1.3.0-beta.5 =
+Bug Prefix for Guilded Webhook System
 
 = 1.3.0-beta.4 =
 Bug Prefix for Guilded Webhook System
@@ -60,6 +63,9 @@ Changed the name of the plugin from Discord Webhook to Webhook for Discord
 Temporary release This Plugin
 
 == Upgrade Notice ==
+
+= 1.3.0-beta.5 =
+Bug Prefix
 
 = 1.3.0-beta.4 =
 Bug Prefix
