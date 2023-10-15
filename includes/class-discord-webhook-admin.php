@@ -149,7 +149,7 @@ class Discord_Webhook_Admin {
 		register_setting( 'discord-webhook', 'discord_webhook_avatar_url' );
 		register_setting( 'discord-webhook', 'discord_webhook_bot_token' );
 		register_setting( 'discord-webhook', 'discord_webhook_webhook_url' );
-		register_setting( 'discord-webhook', 'print_guilded_webhook_url' );
+		register_setting( 'discord-webhook', 'discord_webhook_guilded_webhook_url' );
 		register_setting( 'discord-webhook', 'discord_webhook_logging' );
 		register_setting( 'discord-webhook', 'discord_webhook_mention_everyone' );
 		register_setting( 'discord-webhook', 'discord_webhook_disable_embed' );
