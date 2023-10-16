@@ -19,6 +19,7 @@ class Discord_Webhook_GF {
 	 */
 	public function __construct() {
 		add_action( 'gform_entry_created', array( $this, 'send' ), 10, 2 );
+		add_action( 'gform_entry_created', array( $this, 'guilded_send' ), 10, 2 );
 	}
 
 	/**

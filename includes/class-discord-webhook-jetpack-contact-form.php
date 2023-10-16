@@ -19,6 +19,7 @@ class Discord_Webhook_Jetpack_CF {
 	 */
 	public function __construct() {
 		add_action( 'grunion_pre_message_sent', array( $this, 'send' ), 10, 2 );
+		add_action( 'grunion_pre_message_sent', array( $this, 'guilded_send' ), 10, 2 );
 	}
 
 	/**

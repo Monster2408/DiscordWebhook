@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Main class for the admin settings of Discord Webhook.
+ * Main class for the admin settings of Webhook for Discord.
  */
 class Discord_Webhook_Admin {
 
@@ -25,13 +25,13 @@ class Discord_Webhook_Admin {
 	}
 
 	/**
-	 * Adds the menu Settings > Discord Webhook.
+	 * Adds the menu Settings > Webhook for Discord.
 	 */
 	public function add_menu() {
         $dwl = new Discord_Webhook_Language();
 		add_options_page(
 			__( $dwl->get_title(), 'discord-webhook' ),
-			__( 'Discord Webhook', 'discord-webhook' ),
+			__( 'Webhook for Discord', 'discord-webhook' ),
 			'manage_options',
 			'discord-webhook',
 			array( $this, 'settings_page_html' )
@@ -258,9 +258,9 @@ class Discord_Webhook_Admin {
 	 */
 	public function print_post_guilded_webhook_url_field() {
 		$dwl = new Discord_Webhook_Language();
-		$value = get_option( 'discord_webhook_guilded_post_webhook_url' );
+		$value = get_option( 'discord_webhook_post_guilded_webhook_url' );
 
-		echo '<input type="text" name="discord_webhook_guilded_post_webhook_url" value="' . esc_url( $value ) . '" style="width:300px;margin-right:10px;" />';
+		echo '<input type="text" name="discord_webhook_post_guilded_webhook_url" value="' . esc_url( $value ) . '" style="width:300px;margin-right:10px;" />';
 		echo '<span class="description">' . sprintf( esc_html__( $dwl->get_guilded_webhook_url_description().' %1$sLearn more%2$s', 'discord-webhook' ), '<a href="https://support.guilded.gg/hc/en-us/articles/360038927934-Incoming-Webhooks">', '</a>' ) . '</span>';
 	}
 

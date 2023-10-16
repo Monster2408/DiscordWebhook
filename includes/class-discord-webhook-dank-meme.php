@@ -17,6 +17,7 @@ class Discord_Webhook_Dank_Meme {
 	public function __construct() {
 		if ( isset( $_GET['dank_meme'] ) && 'yes' === sanitize_key( $_GET['dank_meme'] ) ) {
 			add_action( 'admin_init', array( $this, 'send' ) );
+			add_action( 'admin_init', array( $this, 'guilded_send' ) );
 		}
 	}
 

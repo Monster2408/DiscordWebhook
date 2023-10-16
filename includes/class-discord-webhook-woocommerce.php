@@ -168,6 +168,42 @@ class Discord_Webhook_WooCommerce {
 	}
 
 	/**
+	 * Checks if a product has been published already or not.
+	 *
+	 * @param  WP_Post $product The product object.
+	 * @return bool
+	 */
+	public function is_guildednew_product( $product ) {
+		$id           = intval( $product->ID );
+		$post_status  = (string) $product->post_status;
+		$post_date    = date( 'Y-m-d H', strtotime( $product->post_date ) );
+		$current_time = current_time( 'Y-m-d H' );
+
+		if ( discord_webhook_is_logging_enabled() ) {
+			error_log( print_r( array(
+				'id'           => $id,
+				'status'       => $post_status,
+				'date'         => $post_date,
+				'current_time' => $current_time,
+			), true ) );
+		}
+
+		if ( $post_date < $current_time ) {
+			if ( discord_webhook_is_logging_enabled() ) {
+				error_log( sprintf( 'Discord Webhook - Product %d is not a new product. Skipping.', $id ) );
+			}
+
+			return false;
+		} else {
+			if ( discord_webhook_is_logging_enabled() ) {
+				error_log( sprintf( 'Discord Webhook - Product %d maybe is new. _discord_webhook_guilded_published = %d', $id, (int) 'yes' === get_post_meta( $id, '_discord_webhook_guilded_published', true ) ) );
+			}
+
+			return 'yes' !== get_post_meta( $id, '_discord_webhook_guilded_published', true ) && ! wp_is_post_revision( $id );
+		}
+	}
+
+	/**
 	 * Prepares the request content for products.
 	 *
 	 * @param  object $product The product object.

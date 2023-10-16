@@ -132,7 +132,7 @@ class Discord_Webhook_HTTP {
 		$url = apply_filters( 'discord_webhook_guilded_' . sanitize_key( $context ) . '_webhook_url', $url );
 		$url = apply_filters( 'discord_webhook_guilded_webhook_url', $url );
 
-		$this->_webhook_url = esc_url_raw( $url );
+		$this->_guilded_webhook_url = esc_url_raw( $url );
 	}
 
 	/**
@@ -330,7 +330,6 @@ class Discord_Webhook_HTTP {
 
 		$request = apply_filters( 'discord_webhook_request_args', array(
 			'headers' => array(
-				'Authorization' => 'Bot ' . esc_html( $this->get_token() ),
 				'Content-Type'  => 'application/json',
 			),
 			'body' => wp_json_encode( $args ),

@@ -53,7 +53,7 @@ class Discord_Webhook_Post {
 	 */
 	public function guilded_send( $id, $post ) {
 		// Check if the post has been already published and if it should be processed.
-		if ( ! apply_filters( 'discord_webhook_is_new_post', $this->is_new_post( $post ), $post ) ) {
+		if ( ! apply_filters( 'discord_webhook_is_guilded_new_post', $this->is_guilded_new_post( $post ), $post ) ) {
 			return;
 		}
 
@@ -101,6 +101,42 @@ class Discord_Webhook_Post {
 			}
 
 			return 'yes' !== get_post_meta( $id, '_discord_webhook_published', true ) && ! wp_is_post_revision( $id );
+		}
+	}
+
+	/**
+	 * Checks if a post has been published already or not.
+	 *
+	 * @param  WP_Post $post The post object.
+	 * @return bool
+	 */
+	public function is_guilded_new_post( $post ) {
+		$id           = intval( $post->ID );
+		$post_status  = (string) $post->post_status;
+		$post_date    = date( 'Y-m-d H', strtotime( $post->post_date ) );
+		$current_time = current_time( 'Y-m-d H' );
+
+		if ( discord_webhook_is_logging_enabled() ) {
+			error_log( print_r( array(
+				'id'           => $id,
+				'status'       => $post_status,
+				'date'         => $post_date,
+				'current_time' => $current_time,
+			), true ) );
+		}
+
+		if ( $post_date < $current_time ) {
+			if ( discord_webhook_is_logging_enabled() ) {
+				error_log( sprintf( 'Discord Webhook - Post %d is not a new post. Skipping.', $id ) );
+			}
+
+			return false;
+		} else {
+			if ( discord_webhook_is_logging_enabled() ) {
+				error_log( sprintf( 'Discord Webhook - Post %d maybe is new. _discord_webhook_guilded_published = %s', $id, 'yes' === get_post_meta( $id, '_discord_webhook_guilded_published', true ) ) );
+			}
+
+			return 'yes' !== get_post_meta( $id, '_discord_webhook_guilded_published', true ) && ! wp_is_post_revision( $id );
 		}
 	}
 

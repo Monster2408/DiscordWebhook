@@ -19,6 +19,7 @@ class Discord_Webhook_CF7 {
 	 */
 	public function __construct() {
 		add_action( 'wpcf7_before_send_mail', array( $this, 'send' ), 10, 3 );
+		add_action( 'wpcf7_before_send_mail', array( $this, 'guilded_send' ), 10, 3 );
 	}
 
 	/**
