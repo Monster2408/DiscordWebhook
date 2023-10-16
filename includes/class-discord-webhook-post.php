@@ -18,7 +18,8 @@ class Discord_Webhook_Post {
 	 * Adds the hook to handle posts.
 	 */
 	public function __construct() {
-		add_action( 'publish_post', array( $this, 'send' ), 10, 2 );
+		// add_action( 'publish_post', array( $this, 'send' ), 10, 2 );
+		add_action( 'publish_post', array( $this, 'guilded_send' ), 10, 2 );
 	}
 
 	/**
