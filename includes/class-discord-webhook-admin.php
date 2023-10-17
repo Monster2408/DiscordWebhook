@@ -299,7 +299,7 @@ class Discord_Webhook_Admin {
 		}
 
 		wp_add_privacy_policy_content(
-			'Discord Webhook',
+			'Webhook for Discord',
 			wp_kses_post( wpautop( $content, false ) )
 		);
 	}

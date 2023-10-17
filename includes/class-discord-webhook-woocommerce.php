@@ -154,13 +154,13 @@ class Discord_Webhook_WooCommerce {
 
 		if ( $post_date < $current_time ) {
 			if ( discord_webhook_is_logging_enabled() ) {
-				error_log( sprintf( 'Discord Webhook - Product %d is not a new product. Skipping.', $id ) );
+				error_log( sprintf( 'Webhook for Discord - Product %d is not a new product. Skipping.', $id ) );
 			}
 
 			return false;
 		} else {
 			if ( discord_webhook_is_logging_enabled() ) {
-				error_log( sprintf( 'Discord Webhook - Product %d maybe is new. _discord_webhook_published = %d', $id, (int) 'yes' === get_post_meta( $id, '_discord_webhook_published', true ) ) );
+				error_log( sprintf( 'Webhook for Discord - Product %d maybe is new. _discord_webhook_published = %d', $id, (int) 'yes' === get_post_meta( $id, '_discord_webhook_published', true ) ) );
 			}
 
 			return 'yes' !== get_post_meta( $id, '_discord_webhook_published', true ) && ! wp_is_post_revision( $id );

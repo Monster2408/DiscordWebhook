@@ -62,8 +62,8 @@ msgid "Temporary release This Plugin"
 msgstr "テスト的なリリースをしました。"
 
 #. Found in changelog paragraph.
-msgid "Changed the name of the plugin from Discord Webhook to Webhook for Discord"
-msgstr "プラグインの名前を『Discord Webhook』から『Webhook for Discord』に変更しました。"
+msgid "Changed the name of the plugin from Webhook for Discord to Webhook for Discord"
+msgstr "プラグインの名前を『Webhook for Discord』から『Webhook for Discord』に変更しました。"
 
 #. Found in changelog paragraph.
 msgid "Release This Plugin!"

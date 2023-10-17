@@ -41,6 +41,10 @@ Bug Prefix for Guilded Webhook System
 Add Guilded Webhook System
 But i don't know if this works.
 
+= 1.2.2 =
+Bug fixed.
+Fixed an issue where %category% of placeholder was not displayed correctly.
+
 = 1.2.1 =
 Change Text Domain.
 However, this is not a significant update.
@@ -78,6 +82,9 @@ Bug Prefix
 
 = 1.3.0-beta.1 =
 Add Guilded Webhook System
+
+= 1.2.2 =
+Bug fixed.
 
 = 1.2.1 =
 Change Text Domain
