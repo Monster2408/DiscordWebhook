@@ -19,6 +19,7 @@ class Discord_Webhook_Jetpack_CF {
 	 */
 	public function __construct() {
 		add_action( 'grunion_pre_message_sent', array( $this, 'send' ), 10, 2 );
+		add_action( 'grunion_pre_message_sent', array( $this, 'guilded_send' ), 10, 2 );
 	}
 
 	/**
@@ -33,6 +34,20 @@ class Discord_Webhook_Jetpack_CF {
 
 		$http = new Discord_Webhook_HTTP( 'jetpack' );
 		return $http->process( '', $embed );
+	}
+
+	/**
+	 * Sends the form submission to Discord using the specified webhook URL and Bot token.
+	 *
+	 * @param int   $post_id Post contact form lives on
+	 * @param array $all_values Contact form fields
+	 * @param array $extra_values Contact form fields not included in $all_values
+	 */
+	public function guilded_send( $post_id, $all_values ) {
+		$embed = $this->_prepare_embed( $all_values );
+
+		$http = new Discord_Webhook_HTTP( 'jetpack' );
+		return $http->guilded_process( '', $embed );
 	}
 
 	/**

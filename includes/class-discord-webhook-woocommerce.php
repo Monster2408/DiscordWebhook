@@ -25,6 +25,14 @@ class Discord_Webhook_WooCommerce {
 		if ( 'yes' === get_option( 'discord_webhook_enabled_for_woocommerce' ) ) {
 			add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'send_order' ), 15 );
 		}
+
+		if ( 'yes' === get_option( 'discord_webhook_enabled_for_woocommerce_products' ) ) {
+			add_action( 'woocommerce_process_product_meta', array( $this, 'send_guilded_product' ), 20, 2 );
+		}
+
+		if ( 'yes' === get_option( 'discord_webhook_enabled_for_woocommerce' ) ) {
+			add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'send_guilded_order' ), 15 );
+		}
 	}
 
 	/**
@@ -52,6 +60,30 @@ class Discord_Webhook_WooCommerce {
 	}
 
 	/**
+	 * Sends the product to Discord using the specified webhook URL and Bot token.
+	 *
+	 * @param int $id The product ID.
+	 * @param WC_Product $product The product object.
+	 */
+	public function send_guilded_product( $id, $product ) {
+		// Check if the product has been already published and if it should be processed.
+		if ( ! apply_filters( 'discord_webhook_is_new_product', $this->is_new_product( $product ) ) ) {
+			return;
+		}
+
+		$product = wc_get_product( $id );
+		$content = $this->_prepare_product_content( $product );
+		$embed   = array();
+
+		if ( ! discord_webhook_is_embed_enabled() ) {
+			$embed   = $this->_prepare_product_embed( $id, $product );
+		}
+
+		$http = new Discord_Webhook_HTTP( 'product' );
+		return $http->guilded_process( $content, $embed, $id );
+	}
+
+	/**
 	 * Sends the order to Discord using the specified webhook URL and Bot token.
 	 *
 	 * @param int $order_id The order ID.
@@ -73,6 +105,30 @@ class Discord_Webhook_WooCommerce {
 
 		$http = new Discord_Webhook_HTTP( 'post' );
 		return $http->process( $content, $embed );
+	}
+
+	/**
+	 * Sends the order to Discord using the specified webhook URL and Bot token.
+	 *
+	 * @param int $order_id The order ID.
+	 */
+	public function send_guilded_order( $order_id ) {
+		$order            = wc_get_order( $order_id );
+		$allowed_statuses = apply_filters( 'discord_webhook_allowed_order_statuses', array( 'on-hold', 'processing', 'completed' ) );
+
+		if ( ! in_array( $order->get_status(), $allowed_statuses ) ) {
+			return false;
+		}
+
+		$content          = $this->_prepare_order_content( $order );
+		$embed            = array();
+
+		if ( ! discord_webhook_is_embed_enabled() ) {
+			$embed   = $this->_prepare_order_embed( $order_id, $order );
+		}
+
+		$http = new Discord_Webhook_HTTP( 'post' );
+		return $http->guilded_process( $content, $embed );
 	}
 
 	/**
@@ -108,6 +164,42 @@ class Discord_Webhook_WooCommerce {
 			}
 
 			return 'yes' !== get_post_meta( $id, '_discord_webhook_published', true ) && ! wp_is_post_revision( $id );
+		}
+	}
+
+	/**
+	 * Checks if a product has been published already or not.
+	 *
+	 * @param  WP_Post $product The product object.
+	 * @return bool
+	 */
+	public function is_guildednew_product( $product ) {
+		$id           = intval( $product->ID );
+		$post_status  = (string) $product->post_status;
+		$post_date    = date( 'Y-m-d H', strtotime( $product->post_date ) );
+		$current_time = current_time( 'Y-m-d H' );
+
+		if ( discord_webhook_is_logging_enabled() ) {
+			error_log( print_r( array(
+				'id'           => $id,
+				'status'       => $post_status,
+				'date'         => $post_date,
+				'current_time' => $current_time,
+			), true ) );
+		}
+
+		if ( $post_date < $current_time ) {
+			if ( discord_webhook_is_logging_enabled() ) {
+				error_log( sprintf( 'Discord Webhook - Product %d is not a new product. Skipping.', $id ) );
+			}
+
+			return false;
+		} else {
+			if ( discord_webhook_is_logging_enabled() ) {
+				error_log( sprintf( 'Discord Webhook - Product %d maybe is new. _discord_webhook_guilded_published = %d', $id, (int) 'yes' === get_post_meta( $id, '_discord_webhook_guilded_published', true ) ) );
+			}
+
+			return 'yes' !== get_post_meta( $id, '_discord_webhook_guilded_published', true ) && ! wp_is_post_revision( $id );
 		}
 	}
 

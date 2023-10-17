@@ -73,6 +73,20 @@ class Discord_Webhook_Language {
             return 'The webhook URL from your Discord server. ';
         }
     }
+    function get_guilded_webhook_url() {
+        if (get_locale() === "ja") {
+            return "Guilded Webhook URL";
+        } else {  
+            return 'Guilded Webhook URL';
+        }
+    }
+    function get_guilded_webhook_url_description() {
+        if (get_locale() === "ja") {
+            return "あなたのGuildedサーバーで作ったWebhookを入力してください。";
+        } else {  
+            return 'The webhook URL from your Guilded server. ';
+        }
+    }
     function get_logging() {
         if (get_locale() === "ja") {
             return "ログ";

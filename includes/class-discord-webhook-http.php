@@ -47,6 +47,14 @@ class Discord_Webhook_HTTP {
 	private $_webhook_url = '';
 
 	/**
+	 * The webhook URL.
+	 *
+	 * @var string
+	 * @access private
+	 */
+	private $_guilded_webhook_url = '';
+
+	/**
 	 * The content of the request.
 	 *
 	 * @var string
@@ -105,6 +113,29 @@ class Discord_Webhook_HTTP {
 	}
 
 	/**
+	 * Sets the  webhook URL.
+	 *
+	 * @param string $url     Sets the webhook URL.
+	 * @param string $context The context used for this specific instance.
+	 */
+	public function set_guilded_webhook_url( $url = '' ) {
+		$context = $this->get_context();
+
+		if ( ! empty( $context ) ) {
+			$specific_url = get_option( 'discord_webhook_guilded_' . sanitize_key( $context ) . '_webhook_url' );
+
+			if ( ! empty( $specific_url ) && empty( $url ) ) {
+				$url = $specific_url;
+			}
+		}
+
+		$url = apply_filters( 'discord_webhook_guilded_' . sanitize_key( $context ) . '_webhook_url', $url );
+		$url = apply_filters( 'discord_webhook_guilded_webhook_url', $url );
+
+		$this->_guilded_webhook_url = esc_url_raw( $url );
+	}
+
+	/**
 	 * Sets the context of this request.
 	 *
 	 * @param string $context The context of this request.
@@ -113,6 +144,7 @@ class Discord_Webhook_HTTP {
 		if ( ! empty( $this->get_context() ) ) {
 			$this->_context = sanitize_key( $context );
 			$this->set_webhook_url();
+			$this->set_guilded_webhook_url();
 		} else {
 			$this->_context = sanitize_key( $context );
 		}
@@ -154,6 +186,10 @@ class Discord_Webhook_HTTP {
 		return $this->_webhook_url;
 	}
 
+	public function get_guilded_webhook_url() {
+		return $this->_guilded_webhook_url;
+	}
+
 	/**
 	 * Returns the context of the request.
 	 *
@@ -174,6 +210,7 @@ class Discord_Webhook_HTTP {
 		$this->set_avatar( get_option( 'discord_webhook_avatar_url' ) );
 		$this->set_token( get_option( 'discord_webhook_bot_token' ) );
 		$this->set_webhook_url( get_option( 'discord_webhook_webhook_url' ) );
+		$this->set_guilded_webhook_url( get_option( 'discord_webhook_guilded_webhook_url' ) );
 	}
 
 	/**
@@ -200,6 +237,32 @@ class Discord_Webhook_HTTP {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Processes a request and sends it to Discord.
+	 *
+	 * @param  string $content The message sent along wih the embed.
+	 * @param  array  $embed   The embed content.
+	 * @param  int    $id      The post ID.
+	 * @return object;
+	 */
+	public function guilded_process( $content = '', $embed = array(), $id = 0 ) {
+		$guilded_response = $this->_send_guilded_request( $content, $embed );
+
+		if ( ! is_wp_error( $guilded_response ) ) {
+			if ( discord_webhook_is_logging_enabled() ) {
+				error_log( 'Discord Webhook - Request sent.' );
+			}
+
+			$this->_set_guilded_post_meta( $id );
+		} else {
+			if ( discord_webhook_is_logging_enabled() ) {
+				error_log( sprintf( 'Discord Webhook - Request not sent. %s', $guilded_response->get_error_message() ) );
+			}
+		}
+
+		return $guilded_response;
 	}
 
 	/**
@@ -244,6 +307,47 @@ class Discord_Webhook_HTTP {
 		return $response;
 	}
 
+		/**
+	 * Handles the HTTP request and returns a response.
+	 *
+	 * @param  string $content The content of the request
+	 * @param  array  $embed   The embed content.
+	 * @return object
+	 * @access private
+	 */
+	private function _send_guilded_request( $content, $embed ) {
+		$args = array(
+			'content'    => html_entity_decode( esc_html( $content ) ),
+			'username'   => esc_html( $this->get_username() ),
+			'avatar_url' => esc_url( $this->get_avatar() ),
+		);
+
+		if ( ! empty( $embed ) ) {
+			$args['embeds'] = Discord_Webhook_Formatting::get_embed( $embed );
+		}
+
+		$args = apply_filters( 'discord_webhook_request_body_args', $args );
+
+		$request = apply_filters( 'discord_webhook_request_args', array(
+			'headers' => array(
+				'Content-Type'  => 'application/json',
+			),
+			'body' => wp_json_encode( $args ),
+		) );
+
+		if ( discord_webhook_is_logging_enabled() ) {
+			error_log( print_r( $request, true ) );
+		}
+
+		do_action( 'discord_webhook_before_request', $request, $this->get_guilded_webhook_url() );
+
+		$response = wp_remote_post( esc_url( $this->get_guilded_webhook_url() ), $request );
+
+		do_action( 'discord_webhook_after_request', $response );
+
+		return $response;
+	}
+
 	/**
 	 * Sets the post meta for avoiding sending the request on update.
 	 *
@@ -256,6 +360,23 @@ class Discord_Webhook_HTTP {
 
 		if ( 0 !== $id ) {
 			return add_post_meta( $id, '_discord_webhook_published', 'yes' );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Sets the post meta for avoiding sending the request on update.
+	 *
+	 * @param  int $id The post ID.
+	 * @return bool|int
+	 * @access private
+	 */
+	private function _set_guilded_post_meta( $id ) {
+		$id = intval( $id );
+
+		if ( 0 !== $id ) {
+			return add_post_meta( $id, '_discord_webhook_guilded_published', 'yes' );
 		}
 
 		return false;
