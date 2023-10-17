@@ -18,7 +18,7 @@ class Discord_Webhook_Post {
 	 * Adds the hook to handle posts.
 	 */
 	public function __construct() {
-		// add_action( 'publish_post', array( $this, 'send' ), 10, 2 );
+		add_action( 'publish_post', array( $this, 'send' ), 10, 2 );
 		add_action( 'publish_post', array( $this, 'guilded_send' ), 10, 2 );
 	}
 
@@ -57,12 +57,12 @@ class Discord_Webhook_Post {
 			return;
 		}
 
-		$content = $this->_prepare_content( $id, $post );
+		$content = $this->_prepare_content( $id, $post, true );
 		$embed   = array();
 
-		if ( ! discord_webhook_is_embed_enabled() ) {
-			$embed = $this->_prepare_embed( $id, $post );
-		}
+		// if ( ! discord_webhook_is_embed_enabled() ) {
+		// 	$embed = $this->_prepare_embed( $id, $post );
+		// }
 
 		$http = new Discord_Webhook_HTTP( 'post' );
 		return $http->guilded_process( $content, $embed, $id );
@@ -133,10 +133,10 @@ class Discord_Webhook_Post {
 			return false;
 		} else {
 			if ( discord_webhook_is_logging_enabled() ) {
-				error_log( sprintf( 'Discord Webhook - Post %d maybe is new. _discord_webhook_guilded_published = %s', $id, 'yes' === get_post_meta( $id, '_discord_webhook_guilded_published', true ) ) );
+				error_log( sprintf( 'Discord Webhook - Post %d maybe is new. _discord_webhook_published = %s', $id, 'yes' === get_post_meta( $id, '_discord_webhook_published', true ) ) );
 			}
 
-			return 'yes' !== get_post_meta( $id, '_discord_webhook_guilded_published', true ) && ! wp_is_post_revision( $id );
+			return 'yes' !== get_post_meta( $id, '_discord_webhook_published', true ) && ! wp_is_post_revision( $id );
 		}
 	}
 
@@ -148,7 +148,7 @@ class Discord_Webhook_Post {
 	 * @return string
 	 * @access private
 	 */
-	private function _prepare_content( $id, $post ) {
+	private function _prepare_content( $id, $post , $guilded = false) {
 		$author = $post->post_author;
 		$author = get_user_by( 'ID', $author );
 		$author = $author->display_name;
@@ -175,7 +175,11 @@ class Discord_Webhook_Post {
 			$content = '@everyone ' . $content;
 		}
 
-		$content = apply_filters( 'discord_webhook_post_content', $content, $post );
+		if ($guilded) {
+			$content = apply_filters( 'discord_webhook_guilded_post_content', $content, $post );
+		} else {
+			$content = apply_filters( 'discord_webhook_post_content', $content, $post );
+		}
 
 		return $content;
 	}

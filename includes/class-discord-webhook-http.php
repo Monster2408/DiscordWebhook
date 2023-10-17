@@ -248,6 +248,7 @@ class Discord_Webhook_HTTP {
 	 * @return object;
 	 */
 	public function guilded_process( $content = '', $embed = array(), $id = 0 ) {
+		$embed = array();
 		$guilded_response = $this->_send_guilded_request( $content, $embed );
 
 		if ( ! is_wp_error( $guilded_response ) ) {
