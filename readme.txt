@@ -1,10 +1,10 @@
 === Webhook for Discord ===
 Contributors: monster2408
-Donate link: https://paypal.me/pools/c/8BuanO0eM2
+Donate link: https://github.com/sponsors/Monster2408
 Tags: discord, chat, webhook
 Requires at least: 4.4
-Tested up to: 5.8
-Stable tag: 1.2.1
+Tested up to: 6.3.2
+Stable tag: 1.2.2
 Requires PHP: 7.4
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -24,6 +24,10 @@ The method is very simple. Just enter the URL of the webhook in the settings scr
 It's free.
 
 == Changelog ==
+
+= 1.2.2 =
+Bug fixed.
+Fixed an issue where %category% of placeholder was not displayed correctly.
 
 = 1.2.1 =
 Change Text Domain.
@@ -47,6 +51,9 @@ Changed the name of the plugin from Discord Webhook to Webhook for Discord
 Temporary release This Plugin
 
 == Upgrade Notice ==
+
+= 1.2.2 =
+Bug fixed.
 
 = 1.2.1 =
 Change Text Domain

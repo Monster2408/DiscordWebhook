@@ -67,13 +67,13 @@ class Discord_Webhook_Post {
 
 		if ( $post_date < $current_time ) {
 			if ( discord_webhook_is_logging_enabled() ) {
-				error_log( sprintf( 'Discord Webhook - Post %d is not a new post. Skipping.', $id ) );
+				error_log( sprintf( 'Webhook for Discord - Post %d is not a new post. Skipping.', $id ) );
 			}
 
 			return false;
 		} else {
 			if ( discord_webhook_is_logging_enabled() ) {
-				error_log( sprintf( 'Discord Webhook - Post %d maybe is new. _discord_webhook_published = %s', $id, 'yes' === get_post_meta( $id, '_discord_webhook_published', true ) ) );
+				error_log( sprintf( 'Webhook for Discord - Post %d maybe is new. _discord_webhook_published = %s', $id, 'yes' === get_post_meta( $id, '_discord_webhook_published', true ) ) );
 			}
 
 			return 'yes' !== get_post_meta( $id, '_discord_webhook_published', true ) && ! wp_is_post_revision( $id );
@@ -96,9 +96,14 @@ class Discord_Webhook_Post {
 		$mention_everyone = get_option( 'discord_webhook_mention_everyone' );
 		$message_format   = get_option( 'discord_webhook_message_format' );
 
+		$category_text = "";
+		foreach (get_the_category( $id ) as $category) {
+			$category_text .= $category->name . " ";
+		}
+
 		$content = str_replace(
 			array( '%title%', '%author%', '%url%', '%post_type%', '%category%' ),
-			array( esc_html( $post->post_title ), $author, get_permalink( $id ), get_post_type( $id ), get_the_category( $id ) ),
+			array( esc_html( $post->post_title ), $author, get_permalink( $id ), get_post_type( $id ), $category_text ),
 			$message_format
 		);
 

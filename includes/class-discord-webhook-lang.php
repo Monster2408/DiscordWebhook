@@ -19,9 +19,9 @@ class Discord_Webhook_Language {
     }
     function get_title() {
         if (get_locale() === "ja") {
-            return "Discord Webhookの設定";
+            return "Webhook for Discordの設定";
         } else {  
-            return "Discord Webhook Settings";
+            return "Webhook for Discord Settings";
         }
     }
     function get_category_general() {
@@ -112,7 +112,7 @@ class Discord_Webhook_Language {
         if (get_locale() === "ja") {
             return "投稿時に記事の情報を同時に投稿する機能を停止します。";
         } else {  
-            return 'Disable the embed content added by Discord Webhook and use the default content automatically added by Discord.';
+            return 'Disable the embed content added by Webhook for Discord and use the default content automatically added by Discord.';
         }
     }
     function get_msg_format() {

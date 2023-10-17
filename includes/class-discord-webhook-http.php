@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Main class of the requests handler for Discord Webhook.
+ * Main class of the requests handler for Webhook for Discord.
  */
 class Discord_Webhook_HTTP {
 	/**
@@ -189,13 +189,13 @@ class Discord_Webhook_HTTP {
 
 		if ( ! is_wp_error( $response ) ) {
 			if ( discord_webhook_is_logging_enabled() ) {
-				error_log( 'Discord Webhook - Request sent.' );
+				error_log( 'Webhook for Discord - Request sent.' );
 			}
 
 			$this->_set_post_meta( $id );
 		} else {
 			if ( discord_webhook_is_logging_enabled() ) {
-				error_log( sprintf( 'Discord Webhook - Request not sent. %s', $response->get_error_message() ) );
+				error_log( sprintf( 'Webhook for Discord - Request not sent. %s', $response->get_error_message() ) );
 			}
 		}
 

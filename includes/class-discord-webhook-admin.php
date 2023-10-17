@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Main class for the admin settings of Discord Webhook.
+ * Main class for the admin settings of Webhook for Discord.
  */
 class Discord_Webhook_Admin {
 
@@ -25,13 +25,13 @@ class Discord_Webhook_Admin {
 	}
 
 	/**
-	 * Adds the menu Settings > Discord Webhook.
+	 * Adds the menu Settings > Webhook for Discord.
 	 */
 	public function add_menu() {
         $dwl = new Discord_Webhook_Language();
 		add_options_page(
 			__( $dwl->get_title(), 'discord-webhook' ),
-			__( 'Discord Webhook', 'discord-webhook' ),
+			__( 'Webhook for Discord', 'discord-webhook' ),
 			'manage_options',
 			'discord-webhook',
 			array( $this, 'settings_page_html' )
@@ -267,7 +267,7 @@ class Discord_Webhook_Admin {
 		}
 
 		wp_add_privacy_policy_content(
-			'Discord Webhook',
+			'Webhook for Discord',
 			wp_kses_post( wpautop( $content, false ) )
 		);
 	}
