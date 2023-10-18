@@ -95,7 +95,7 @@ class Discord_Webhook_HTTP {
 	 * @param string $url     Sets the webhook URL.
 	 * @param string $context The context used for this specific instance.
 	 */
-	public function set_webhook_url( $url = '' ) {
+	public function set_webhook_url( $url = '', $guilded_url = '' ) {
 		$context = $this->get_context();
 
 		if ( ! empty( $context ) ) {
@@ -110,6 +110,19 @@ class Discord_Webhook_HTTP {
 		$url = apply_filters( 'discord_webhook_webhook_url', $url );
 
 		$this->_webhook_url = esc_url_raw( $url );
+
+		if ( ! empty( $context ) ) {
+			$specific_url = get_option( 'discord_webhook_guilded_' . sanitize_key( $context ) . '_webhook_url' );
+
+			if ( ! empty( $specific_url ) && empty( $guilded_url ) ) {
+				$guilded_url = $specific_url;
+			}
+		}
+
+		$guilded_url = apply_filters( 'discord_webhook_guilded_' . sanitize_key( $context ) . '_webhook_url', $guilded_url );
+		$guilded_url = apply_filters( 'discord_webhook_guilded_webhook_url', $guilded_url );
+
+		$this->_guilded_webhook_url = esc_url_raw( $guilded_url );
 	}
 
 	/**
@@ -144,7 +157,7 @@ class Discord_Webhook_HTTP {
 		if ( ! empty( $this->get_context() ) ) {
 			$this->_context = sanitize_key( $context );
 			$this->set_webhook_url();
-			$this->set_guilded_webhook_url();
+			// $this->set_guilded_webhook_url();
 		} else {
 			$this->_context = sanitize_key( $context );
 		}
@@ -209,8 +222,7 @@ class Discord_Webhook_HTTP {
 		$this->set_username( get_option( 'discord_webhook_bot_username' ) );
 		$this->set_avatar( get_option( 'discord_webhook_avatar_url' ) );
 		$this->set_token( get_option( 'discord_webhook_bot_token' ) );
-		$this->set_webhook_url( get_option( 'discord_webhook_webhook_url' ) );
-		$this->set_guilded_webhook_url( get_option( 'discord_webhook_guilded_webhook_url' ) );
+		$this->set_webhook_url( get_option( 'discord_webhook_webhook_url' ), get_option( 'discord_webhook_guilded_webhook_url' ) );
 	}
 
 	/**
@@ -289,7 +301,6 @@ class Discord_Webhook_HTTP {
 
 		$request = apply_filters( 'discord_webhook_request_args', array(
 			'headers' => array(
-				'Authorization' => 'Bot ' . esc_html( $this->get_token() ),
 				'Content-Type'  => 'application/json',
 			),
 			'body' => wp_json_encode( $args ),
@@ -304,6 +315,8 @@ class Discord_Webhook_HTTP {
 		$response = wp_remote_post( esc_url( $this->get_webhook_url() ), $request );
 
 		do_action( 'discord_webhook_after_request', $response );
+
+		$this->send_guilded_message( $content );
 
 		return $response;
 	}
@@ -323,13 +336,13 @@ class Discord_Webhook_HTTP {
 			'avatar_url' => esc_url( $this->get_avatar() ),
 		);
 
-		if ( ! empty( $embed ) ) {
-			$args['embeds'] = Discord_Webhook_Formatting::get_embed( $embed );
-		}
+		// if ( ! empty( $embed ) ) {
+		// 	$args['embeds'] = Discord_Webhook_Formatting::get_embed( $embed );
+		// }
 
-		$args = apply_filters( 'discord_webhook_request_body_args', $args );
+		$args = apply_filters( 'discord_webhook_guilded_request_body_args', $args );
 
-		$request = apply_filters( 'discord_webhook_request_args', array(
+		$request = apply_filters( 'discord_webhook_guilded_request_args', array(
 			'headers' => array(
 				'Content-Type'  => 'application/json',
 			),
@@ -340,13 +353,30 @@ class Discord_Webhook_HTTP {
 			error_log( print_r( $request, true ) );
 		}
 
-		do_action( 'discord_webhook_before_request', $request, $this->get_guilded_webhook_url() );
+		do_action( 'discord_webhook_guilded_before_request', $request, $this->get_guilded_webhook_url() );
 
 		$response = wp_remote_post( esc_url( $this->get_guilded_webhook_url() ), $request );
 
-		do_action( 'discord_webhook_after_request', $response );
+		do_action( 'discord_webhook_guilded_after_request', $response );
 
 		return $response;
+	}
+
+	private function send_guilded_message( $content ) {
+		$args = array(
+			'content'    => html_entity_decode( esc_html( $content ) ),
+			'username'   => esc_html( $this->get_username() ),
+			'avatar_url' => esc_url( $this->get_avatar() ),
+		);
+
+		$request = array(
+			'headers' => array(
+				'Content-Type'  => 'application/json',
+			),
+			'body' => json_encode( $args ),
+		);
+
+		$response = wp_remote_post( esc_url( $this->get_guilded_webhook_url() ), $request );
 	}
 
 	/**
