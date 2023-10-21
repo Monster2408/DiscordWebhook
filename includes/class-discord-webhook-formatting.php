@@ -101,49 +101,4 @@ class Discord_Webhook_Formatting {
 
 		return $args;
 	}
-
-	/**
-	 * Formats the embed content in a proper array ready for Guilded.
-	 *
-	 * @param  array $embed The embed array prepared for Guilded.
-	 * @return array
-	 */
-	public static function get_guilded_embed( $embed ) {
-		if ( ! is_array( $embed ) ) {
-			return array();
-		}
-
-		$args = array(
-			array(
-				'title'       => ! empty( $embed['title'] ) ? $embed['title'] : '',
-				'type'        => 'rich',
-				'description' => ! empty( $embed['description'] ) ? $embed['description'] : '',
-				'url'         => ! empty( $embed['url'] ) ? $embed['url'] : site_url(),
-				'timestamp'   => ! empty( $embed['timestamp'] ) ? $embed['timestamp'] : date( 'c' ),
-				'footer'      => array(
-					'text'     => get_bloginfo( 'name' ),
-					'icon_url' => get_site_icon_url(),
-				),
-				'image' => array(
-					"url" => ! empty( $embed['image']['url'] ) ? $embed['image']['url'] : '',
-				),
-				'author'      => array(
-					'name' => ! empty( $embed['author'] ) ? $embed['author'] : get_bloginfo( 'name' ),
-				),
-				'fields' => ! empty( $embed['fields'] ) ? $embed['fields'] : array(),
-			),
-		);
-
-		// if ( ! empty( $embed['thumbnail'] ) ) {
-		// 	$args[0]['thumbnail'] = array(
-		// 		'url' => $embed['thumbnail'],
-		// 	);
-		// }
-
-		if ( discord_webhook_is_logging_enabled() ) {
-			error_log( print_r( $args, true ) );
-		}
-
-		return $args;
-	}
 }

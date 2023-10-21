@@ -19,7 +19,6 @@ class Discord_Webhook_GF {
 	 */
 	public function __construct() {
 		add_action( 'gform_entry_created', array( $this, 'send' ), 10, 2 );
-		add_action( 'gform_entry_created', array( $this, 'guilded_send' ), 10, 2 );
 	}
 
 	/**
@@ -33,19 +32,6 @@ class Discord_Webhook_GF {
 
 		$http = new Discord_Webhook_HTTP( 'gf' );
 		return $http->process( '', $embed );
-	}
-
-	/**
-	 * Sends the form submission to Discord using the specified webhook URL and Bot token.
-	 *
-	 * @param array  $entry The GF entry.
-	 * @param object $form  The GF form object.
-	 */
-	public function guilded_send( $entry, $form ) {
-		$embed = $this->_prepare_embed( $form, $entry );
-
-		$http = new Discord_Webhook_HTTP( 'gf' );
-		return $http->guilded_process( '', $embed );
 	}
 
 	/**
